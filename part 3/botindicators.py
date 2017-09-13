@@ -25,7 +25,8 @@ class BotIndicators(object):
 	def MACD(self, prices, nslow=26, nfast=12):
 		emaslow = self.EMA(prices, nslow)
 		emafast = self.EMA(prices, nfast)
-		return emaslow, emafast, emafast - emaslow
+
+		return emaslow, emafast, emafast - emaslow		
 
 	def RSI (self, prices, period=14):
 		deltas = np.diff(prices)

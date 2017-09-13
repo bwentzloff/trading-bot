@@ -21,6 +21,11 @@ class BotStrategy(object):
 		self.currentClose = float(candlestick['close'])
 		self.closes.append(self.currentClose)
 
+=======
+		
+		#self.currentClose = float(candlestick['close'])
+		#self.closes.append(self.currentClose)
+		
 		self.output.log("Price: "+str(candlestick['weightedAverage'])+"\tMoving Average: "+str(self.indicators.movingAverage(self.prices,15)))
 
 		self.evaluatePositions()
