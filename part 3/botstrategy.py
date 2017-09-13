@@ -13,9 +13,15 @@ class BotStrategy(object):
 		self.numSimulTrades = 1
 		self.indicators = BotIndicators()
 
+
 	def tick(self,candlestick):
 		self.currentPrice = float(candlestick['weightedAverage'])
 		self.prices.append(self.currentPrice)
+
+		self.currentClose = float(candlestick['close'])
+		self.closes.append(self.currentClose)
+
+=======
 		
 		#self.currentClose = float(candlestick['close'])
 		#self.closes.append(self.currentClose)
@@ -48,5 +54,4 @@ class BotStrategy(object):
 	def showPositions(self):
 		for trade in self.trades:
 			trade.showTrade()
-
 		

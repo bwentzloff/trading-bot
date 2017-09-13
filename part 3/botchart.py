@@ -3,6 +3,10 @@ import urllib, json
 import pprint
 
 class BotChart(object):
+	def __init__(self, exchange, pair, period):
+		self.conn = poloniex('ID8SVZR495A6A44RPKXPWVSGR1ANXPH6','518b0335e8931b8a4d37286728ed582b8ba4eb96a099a20677167ddc9ded911ab5c8217c0c1dfe6665a833128193576ea3ae1e8ab96f9f623ce271663f9c7148')
+
+=======
 	def __init__(self, exchange, pair, period, backtest=True):
 		self.pair = pair
 		self.period = period
