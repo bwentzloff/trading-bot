@@ -1,0 +1,62 @@
+from botlog import BotLog
+
+class BotTrade(object):
+    def __init__(self,currentPrice,stopLoss=0):
+        self.output = BotLog()
+        self.status = "OPEN"
+        self.fee_buy = 0.25
+        self.fee_sell = 0.15
+        self.amount = 1 #amount of tokens to order
+  
+        self.entry_total = self.amount * currentPrice #Total amount of order at current price
+        self.entry_fee = (self.entry_total / 100) * self.fee_buy # plus fee
+        
+        # amount leaving account (buy)
+        self.saldo_invest = self.entry_total + self.entry_fee
+        
+        self.entryPrice = currentPrice 
+        self.exitPrice = ""
+        
+        self.output.log("Trade opened")
+        
+        if (stopLoss):
+            self.stopLoss = currentPrice - stopLoss
+    
+    def close(self,currentPrice):
+        self.status = "CLOSED"        
+        
+        self.exit_total = self.amount * currentPrice
+        self.exit_fee = (self.exit_total / 100) * self.fee_sell
+        
+        # amount entering account (sell)
+        self.saldo_return = self.exit_total - self.entry_fee
+        
+        self.exitPrice = currentPrice
+        
+        self.output.log("Trade closed")
+
+    def tick(self, currentPrice):
+        if (self.stopLoss):
+            # Loss logik implementieren
+            if (currentPrice < self.stopLoss):
+                self.close(currentPrice)
+
+
+    def showTrade(self):
+        tradeStatus = str(self.status)+"- Entry at: "+str(self.entryPrice)+" Exit at: "+str(self.exitPrice)
+
+        if (self.status == "CLOSED"):
+            tradeStatus = tradeStatus + " Profit: "
+            if (self.exitPrice > self.entryPrice and self.saldo_return > self.saldo_invest ):
+                tradeStatus = tradeStatus + "\033[92m"
+            else:
+                tradeStatus = tradeStatus + "\033[91m"
+            
+            mrgn = self.saldo_return - self.saldo_invest
+            mrgn_prcnt = 100 * self.saldo_return / self.saldo_invest - 100
+            mrgn_prcnt = " "+format(mrgn_prcnt,'.1f')+"% "
+            
+            tradeStatus = tradeStatus+str(format(mrgn, '.8f'))+mrgn_prcnt+"\033[0m"
+
+        self.output.log(tradeStatus)
+    
