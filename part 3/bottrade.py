@@ -1,10 +1,12 @@
 from botlog import BotLog
+import numpy as np
 
 class BotTrade(object):
 	def __init__(self,currentPrice,stopLoss=0):
 		self.output = BotLog()
 		self.status = "OPEN"
 		self.entryPrice = currentPrice
+		self.transFee = currentPrice * .0025
 		self.exitPrice = ""
 		self.output.log("Trade opened")
 		if (stopLoss):
@@ -23,15 +25,15 @@ class BotTrade(object):
 
 	def showTrade(self):
 		tradeStatus = "Entry Price: "+str(self.entryPrice)+" Status: "+str(self.status)+" Exit Price: "+str(self.exitPrice)
-
 		if (self.status == "CLOSED"):
-			tradeStatus = tradeStatus + " Profit: "
-			if (self.exitPrice > self.entryPrice):
+			if (self.exitPrice > (self.entryPrice + self.transFee)):
+				tradeStatus = tradeStatus + " Profit: "
 				tradeStatus = tradeStatus + "\033[92m"
 			else:
+				tradeStatus = tradeStatus + " Loss: "
 				tradeStatus = tradeStatus + "\033[91m"
 
-			tradeStatus = tradeStatus+str(self.exitPrice - self.entryPrice)+"\033[0m"
+			tradeStatus = tradeStatus+str(self.exitPrice - (self.entryPrice + self.transFee))+"\033[0m"
 
 		self.output.log(tradeStatus)
 	

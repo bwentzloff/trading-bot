@@ -1,5 +1,4 @@
 import sys, getopt
-
 from botchart import BotChart
 from botstrategy import BotStrategy
 

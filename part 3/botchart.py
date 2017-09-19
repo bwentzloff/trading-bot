@@ -33,5 +33,5 @@ class BotChart(object):
 	def getCurrentPrice(self):
 		currentValues = self.conn.api_query("returnTicker")
 		lastPairPrice = {}
-		lastPairPrice['weightedAverage'] = currentValues[self.pair]["last"]
+		lastPairPrice = currentValues[self.pair]["last"]
 		return lastPairPrice
