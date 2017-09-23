@@ -13,7 +13,7 @@ class BotCandlestick(object):
 		self.startTime = time.time()
 		self.period = period
 		self.output = BotLog()
-		self.priceAverage = None
+		self.weightedAverage = None
 
 	def tick(self,price):
 		self.current = float(price)
@@ -28,7 +28,7 @@ class BotCandlestick(object):
 
 		if ( time.time() >= ( self.startTime + self.period) ):
 			self.close = self.current
-			self.priceAverage = ( self.high + self.low + self.close ) / float(3)
+			self.weightedAverage = ( self.high + self.low + self.close ) / float(3)
 
 		self.output.log("Open: "+str(self.open)+" Close: "+str(self.close)+" High: "+str(self.high)+" Low: "+str(self.low)+" Current: "+str(self.current))
 
