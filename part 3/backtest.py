@@ -4,7 +4,7 @@ from botchart import BotChart
 from botstrategy import BotStrategy
 
 def main(argv):
-	chart = BotChart("poloniex","BTC_XMR",300)
+	chart = BotChart("poloniex","BTC_STR",300)
 
 	strategy = BotStrategy()
 
