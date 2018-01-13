@@ -1,22 +1,29 @@
 from botlog import BotLog
 import datetime
+import dateutil.parser
 
 class BotTrade(object):
-	def __init__(self,currentPrice,stopLoss=0):
+	def __init__(self,currentPrice,openTime,stopLoss=0):
 		self.output = BotLog()
-		self.openTime = str(datetime.datetime.now())
-		self.output.log("Trade opened at " + self.openTime)
+		#this is the time the candlestick the triggered the trade order was closed, there will be some delay before trade is actually opened
+		self.openTime = openTime
+		#open = datetime.datetime(openTime)
+		#timeString = str(dateutil.parser.parse(self.openTime.isoformat()))
+		#self.output.log("Trade opened at " + timeString)
 		self.status = "OPEN"
 		self.entryPrice = currentPrice
 		self.exitPrice = ""
-		self.closeTime = ""
+		self.closeTime = None
+		self.stopLoss = None
 		if (stopLoss):
-			self.stopLoss = currentPrice - stopLoss
+			self.stopLoss = currentPrice - stopLoss*currentPrice
 	
-	def close(self,currentPrice):
+	def close(self,currentPrice, closeTime):
 		self.status = "CLOSED"
 		self.exitPrice = currentPrice
-		self.output.log("Trade closed")
+		self.closeTime = closeTime
+		#timeString = str(dateutil.parser.parse(self.closeTime.isoformat))
+		#self.output.log("Trade closed at " + timeString)
 
 	def tick(self, currentPrice):
 		if (self.stopLoss):
@@ -45,4 +52,5 @@ class BotTrade(object):
 			tradeStatus = tradeStatus+str(percentage)+"\033[0m"
 
 		self.output.log(tradeStatus)
+		self.output.log("Open Time: " + str(self.openTime) + " Close Time: " + str(self.closeTime))
 	

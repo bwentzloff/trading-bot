@@ -17,6 +17,7 @@ class BotCandlestick(object):
 		self.priceAverage = priceAverage
 		self.closed = False
 		self.volume = volume
+		self.endTime = None
 
 	def tick(self,price):
 		self.current = float(price)
@@ -33,6 +34,7 @@ class BotCandlestick(object):
 			self.close = self.current
 			self.closed = True
 			self.priceAverage = ( self.high + self.low + self.close ) / float(3)
+			self.endTime = time.time()
 			self.output.log("candlestick closed")
 
 		self.output.log("Open: "+str(self.open)+" Close: "+str(self.close)+" High: "+str(self.high)+" Low: "+str(self.low)+" Current: "+str(self.current))
@@ -40,7 +42,7 @@ class BotCandlestick(object):
 	#update the time of the candestick to fill in accurate information in 
 	#candesticks generated from backfilled data
 	def setTime(self, time):
-		self.startTime = time
+		self.endTime = time
 
 	#print out the information contained in this candlestick to its output log
 	def printInfo(self):
